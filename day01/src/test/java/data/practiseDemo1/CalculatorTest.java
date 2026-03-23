@@ -20,10 +20,10 @@ class CalculatorTest {
     @Test
     void result() {
         Calculator cal = new Calculator();
-        assertEquals(cal.result(1, 2, "+"), 3);
-        assertEquals(cal.result(2,3,"-"), -1);
-        assertEquals(cal.result(2,3,"*"),6);
-        assertEquals(cal.result(4,2,"/"),2);
+        assertEquals(3,cal.result(1, 2, "+"));
+        assertEquals(-1,cal.result(2,3,"-"));
+        assertEquals(6,cal.result(2,3,"*"));
+        assertEquals(2,cal.result(4,2,"/"));
     }
 
     @Test
