@@ -1,4 +1,4 @@
-package data.practis;
+package data.practiseDemo1;
 
 public class Calculator {
     private double n1;

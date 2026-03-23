@@ -1,4 +1,4 @@
-package data.practis;
+package data.practiseDemo1;
 import java.util.Scanner;
 
 public class Date {
