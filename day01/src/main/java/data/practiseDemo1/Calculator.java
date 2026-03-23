@@ -1,14 +1,9 @@
 package data.practiseDemo1;
 
 public class Calculator {
-    private double n1;
-    private double n2;
-    private String operator;
 
     public double result(double n1, double n2, String operator) {
-        this.n1 = n1;
-        this.n2 = n2;
-        this.operator = operator;
+
             if (operator.equals("+")) {
                 return add(n1, n2);
             } else if (operator.equals("-")) {
@@ -34,6 +29,8 @@ public class Calculator {
         }
         return a/b;
     }
+
+    
 }
 
 
