@@ -24,7 +24,7 @@ public class ArrayCalculator {
             validateDecimalFormat(result.getNumSr2());
             double calculationResult = calculate(num1,num2,result.getOperator());
             System.out.println("结果：" + calculationResult);
-        }catch (IllegalCallerException e){
+            }catch (IllegalCallerException e){
                 System.out.println("错误："+ e.getMessage()+ "\n");
             } catch (ArithmeticException e) {
                 System.out.println("错误：" + e.getMessage() + "\n");
