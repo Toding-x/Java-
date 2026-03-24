@@ -23,7 +23,7 @@ public class Demo3 {
             while ((ch = reader.read()) !=-1){
                 sb.append((char)ch);
             }
-            System.out.println(sb.toString());
+            System.out.println(sb);
             reader.close();
         }catch (IOException e){
             System.out.println("Exception");
