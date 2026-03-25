@@ -11,7 +11,7 @@ public abstract class Person {
     }
 
     public String getSex() {
-        if (sex==true){
+        if (sex){
             return "男";
         }else {
             return  "女";
