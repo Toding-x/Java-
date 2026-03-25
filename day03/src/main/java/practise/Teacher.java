@@ -3,9 +3,14 @@ package practise;
 public class Teacher extends  Person{
     private String course;
 
-    public Teacher(String name, boolean sex) {
-        super(name, sex);
-        this.course = course;
+    public Teacher(String name,boolean sex,String work,String course){
+        super(name,sex,work);
+        setCourse(course);
+    }
+
+    @Override
+    public void checkDate() {
+        System.out.println(getName()+"是教"+course+"的"+getSex()+getWork());
     }
 
     public String getCourse() {
