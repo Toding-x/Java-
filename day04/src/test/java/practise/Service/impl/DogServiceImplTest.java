@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import practise.Service.DogService;
 import practise.entity.Dog;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class DogServiceImplTest {
 

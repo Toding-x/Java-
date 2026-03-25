@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import practise.entity.Cat;
 
-import static org.junit.jupiter.api.Assertions.*;
 class CatServiceImplTest {
 
     @BeforeEach

@@ -1,6 +1,6 @@
 package ImplementsDemo;
 
 public interface Sports {
-    public void setHomeTeam(String name);
-    public void setVisitingTeam(String name);
+     void setHomeTeam(String name);
+     void setVisitingTeam(String name);
 }
