@@ -1,6 +1,7 @@
 package data.practiseDemo1;
 import java.util.Scanner;
 
+// 这个类名和 Java 里的 Date 很像，初学时容易看混，建议换个更明确的名字。
 public class Date {
 /*/
 写一个计算器程序，处理不同类型的数字运算
@@ -9,6 +10,7 @@ public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     Calculator cal = new Calculator();
     System.out.println("====================\n");
+    // 这里提示支持 %，但实际还没实现这个功能。
     System.out.println("运算符：加 + 减 - 乘 *  除 / 求余 %");
     System.out.println("退出请输入 exit\n");
 
@@ -23,6 +25,8 @@ public static void main(String[] args) {
         }
 
         String[] n = input.split("\\s+");
+        // 这里输入格式一错，程序就会直接报错退出。
+        // 更适合在循环里提示用户重新输入。
         if (n.length != 3) {
             throw new IllegalArgumentException("输入格式错误！请按「数字 运算符 数字」格式输入");
         }
@@ -41,5 +45,3 @@ public static void main(String[] args) {
     }
     sc.close();
   }}
-
-

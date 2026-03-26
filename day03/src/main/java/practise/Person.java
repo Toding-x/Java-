@@ -10,6 +10,8 @@ public abstract class Person {
         this.work=work;
     }
 
+    // 这里把 true/false 直接变成“男/女”，会把数据和显示混在一起。
+    // 更清楚的做法是先保留原始值，显示时再转中文。
     public String getSex() {
         if (sex){
             return "男";
@@ -30,6 +32,8 @@ public abstract class Person {
         this.name = name;
     }
 
+    // checkDate 这个名字像“检查日期”，不太符合方法实际作用。
+    // 这个方法其实是在输出人物信息。
     public abstract void checkDate();
 
     public String getWork() {

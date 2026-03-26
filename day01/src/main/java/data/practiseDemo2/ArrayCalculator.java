@@ -18,12 +18,16 @@ public class ArrayCalculator {
                 break;
             }
             Result result = arrayResult(input);
+            // 这里最好先检查格式，再转成数字。
+            // 不然格式错了会直接报 NumberFormatException。
             double num1 =Double.parseDouble(result.getNumSr1());
             double num2 = Double.parseDouble(result.getNumSr2());
             validateDecimalFormat(result.getNumSr1());
             validateDecimalFormat(result.getNumSr2());
             double calculationResult = calculate(num1,num2,result.getOperator());
             System.out.println("结果：" + calculationResult);
+            // 上面主要抛出的是 IllegalArgumentException。
+            // 这里捕获的异常类型写错了。
             }catch (IllegalCallerException e){
                 System.out.println("错误："+ e.getMessage()+ "\n");
             } catch (ArithmeticException e) {
@@ -53,6 +57,7 @@ public class ArrayCalculator {
                     numChar2.add(c);
                 }
             } else if (isOperator(c)) {
+                // 这里会把 - 直接当成运算符，所以现在还不支持负数。
                 if (operator !=null){
                     throw new IllegalArgumentException("运算只允许一个运算符");
                 }

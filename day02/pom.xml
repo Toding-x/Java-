@@ -18,8 +18,10 @@
     </properties>
     <dependencies>
         <dependency>
+            <!-- 这里用了 JUnit 5，但当前测试配置还没真正把它跑起来，mvn test 现在还是 0 条。 -->
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
+            <!-- RELEASE 这种写法已经过时了，最好固定具体版本。 -->
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>

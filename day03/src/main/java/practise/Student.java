@@ -1,7 +1,9 @@
 package practise;
 
 public class Student extends Person {
+    // 字段名一般写成 id，不建议写成 Id。
     private int Id;
+    // 其余的这些字段可以采用“驼峰命名”，比如classRoom
     private String classroom;
     public  Student(String name,boolean sex,String work,int Id ,String classroom){
         super(name,sex,work);

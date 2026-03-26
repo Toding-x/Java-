@@ -1,5 +1,7 @@
 package practise.entity;
 
+// 按这周练习题，这里更适合先写成接口，再让 Dog 和 Cat 去实现。
+// 现在写成父类也能用，但重点会偏到继承。
 public class Animal {
     private String name;
     private String move;

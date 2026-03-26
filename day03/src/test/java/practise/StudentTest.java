@@ -20,6 +20,7 @@ class StudentTest {
 
     @Test
     void checkDate() {
+        // 这里只是调用方法，没有检查结果，测试作用会比较弱。
         student.checkDate();
     }
 }

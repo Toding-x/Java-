@@ -23,6 +23,7 @@ class DogServiceImplTest {
     void writeAddress() {
         DogService dogService = new DogServiceImpl();
         Dog dog = new Dog("小狗","吃","骨头","小吴家");
+        // 这里只是调用方法，没有检查结果，测试作用会比较弱。
         dogService.WriteAddress(dog);
     }
 }
