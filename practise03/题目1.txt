@@ -1,0 +1,32 @@
+  练习题
+
+  ArrayList 部分
+
+  题A： 创建一个 ArrayList<Integer>，存入 1~10，然后：
+  - 删除所有偶数（用 Iterator）
+  - 打印剩余元素
+
+  题B： 有一个学生名单 ["Alice","Bob","Charlie","Alice","Bob","Alice"]，用 ArrayList 统计每个名字出现几次（提示：结合 HashMap）
+
+  ---
+  HashMap 部分
+
+  题C： 给你一句话 "java is good and java is fun"，统计每个单词出现次数，只打印出现次数超过1次的单词
+
+  题D： 用 HashMap<String, ArrayList<String>> 实现分组：把下面的水果按首字母分组：
+  ["apple","avocado","banana","blueberry","cherry","apricot"]
+  输出：
+  a=[apple, avocado, apricot]
+  b=[banana, blueberry]
+  c=[cherry]
+
+  ---
+  针对你之前的薄弱点
+
+  题E（循环找最值）： 有一个 HashMap<String, Integer> 存了学生成绩：
+  map.put("Alice", 88);
+  map.put("Bob", 95);
+  map.put("Charlie", 72);
+  map.put("Diana", 95);
+  遍历找出最高分的学生名字，如果并列最高分就都打印出来。
+
