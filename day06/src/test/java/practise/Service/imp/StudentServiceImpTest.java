@@ -19,6 +19,7 @@ class StudentServiceImpTest {
 
     @AfterEach
     void tearDown() {
+        // 小建议：这里文案更适合写“结束测试”，日志一眼就能看懂执行阶段。
         System.out.println("开始测试");
     }
 
@@ -49,12 +50,15 @@ class StudentServiceImpTest {
         service.StudentAdd(s2);
         service.StudentAdd(s3);
         service.Studentsort();
+        // 建议：测试里尽量多写断言，少只打印。
+        // 比如这里可以断言排序后第一个学生的分数是不是 100.0，这样测试才真正能兜底。
         System.out.println(service.list);
 
     }
 
     @Test
     void tudentGet() {
+        // 小建议：测试方法名有个单词少了 S，虽然不影响运行，但命名整齐会让测试报告更舒服。
         StudentServiceImp service = new StudentServiceImp();
         service.StudentAdd(s1);
         service.StudentAdd(s2);
