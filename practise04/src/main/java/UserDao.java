@@ -8,9 +8,16 @@ public class UserDao {
         private final String password = "123456";
 
     public void findAll(){
+        // TODO（优先级1）：先把这里改成 try-with-resources，这是 JDBC 最值得先养成的习惯。
+        // 完成标准：这个方法里不再手写 close，异常时资源也能正常释放。
+        // 给你的练习任务：
+        // 1. 把这里改成 try-with-resources。
+        // 2. 试着让这个方法返回 List<User>，不要直接在 DAO 里打印。
+        // 3. 再想一想：DAO 层如果一边查库一边打印，后面接页面时会不会别扭？
         String sql = "select * from user";
         try {
             // 建议：这里后面可以练一下 try-with-resources，能自动关闭连接、语句、结果集，少写很多 close。
+            // 再追问自己一句：为什么 Java 专门给数据库、文件这些资源准备了自动关闭的写法？
             Connection conn = DriverManager.getConnection(url, username, password);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -38,6 +45,12 @@ public class UserDao {
 
     }
     public void insert(User user){
+        // TODO（优先级2）：把 insert SQL 改成显式字段名写法，先把“能跑”升级成“更稳”。
+        // 完成标准：SQL 类似 insert into user(id, name, age, username, password, address) values(...)
+        // 给你的练习任务：
+        // 1. 试着把 SQL 改成带字段名的 insert，别完全依赖表字段顺序。
+        // 2. 想一想：为什么这里用 PreparedStatement，而查询那边你却用了 Statement？
+        // 3. 如果让你自己定规范，增删改查你会不会统一都优先用 PreparedStatement？
         String sql = "insert into user values(?,?,?,?,?,?)";
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
@@ -59,3 +72,5 @@ public class UserDao {
     }
 
 }
+
+

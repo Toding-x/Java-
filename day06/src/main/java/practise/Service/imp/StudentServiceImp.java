@@ -10,10 +10,17 @@ import java.util.Iterator;
 public class StudentServiceImp implements StudentServic {
 
     // 建议：成员变量最好写成 private，先把封装意识养起来，后面类会更好维护。
+    // 给你的练习任务：
+    // 1. 先把这里改成 private。
+    // 2. 再往前走一步：左边类型能不能写成 List<Student>？
+    // 3. 想一想：为什么“面向接口编程”这个词，总是和可维护性一起出现？
+    // TODO（优先级2）：把这里收口成 private，并思考左边能不能改成 List<Student>。
     ArrayList<Student> list = new ArrayList<>();
     @Override
     public void StudentAdd(Student student) {
 
+        // 给你的练习任务：如果两个学生 id 一样，现在这段代码会怎样？
+        // 再想一想：新增之前要不要先校验“学号是否已存在”？
         list.add(student);
 
     }
@@ -26,6 +33,7 @@ public class StudentServiceImp implements StudentServic {
             if (id == student.getId()){
                 ito.remove();
                 // 如果学号唯一，这里删完就可以 break，能少走一段循环。
+                // 给你的练习任务：试着让删除方法返回 boolean，调用方就能知道“到底删没删到”。
             }
         }
     }
@@ -40,7 +48,12 @@ public class StudentServiceImp implements StudentServic {
     public void StudentGet() {
         // 建议：Service 层更推荐“返回数据”，少直接打印。
         // 现在是练习项目没问题，但以后接控制层、页面层时会更自然。
+        // 给你的练习任务：把这个方法改成返回 List<Student>，然后再想想测试会不会更好写。
         System.out.println(list);
 
     }
 }
+
+
+
+
