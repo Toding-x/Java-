@@ -1,0 +1,12 @@
+ 题1： 创建一个 BankAccount 类，要求：
+  - 私有属性：owner(String)、balance(double)
+  - 构造方法（带两个参数）
+  - deposit(double amount) 存款，金额 <= 0 时抛出 IllegalArgumentException
+  - withdraw(double amount) 取款，余额不足时抛出 IllegalArgumentException
+  - 重写 toString()，输出格式：BankAccount{owner='张三', balance=1000.0}
+
+  ---
+  题2： 创建 StudentService 类，属性是一个 Student[] 数组，实现：
+  - getHighScoreStudents(double minScore) 返回所有分数 >= minScore 的学生数组
+  - getRankFirst() 返回分数最高的学生
+  - 注意处理数组为空/null 的情况

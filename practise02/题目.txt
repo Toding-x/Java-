@@ -1,0 +1,14 @@
+ 题3： 定义抽象类 Shape，包含：
+  - 抽象方法 area() 返回面积
+  - 抽象方法 perimeter() 返回周长
+  - 普通方法 describe() 打印：图形面积：xx，周长：xx
+
+  然后分别创建 Circle（半径）和 Rectangle（长、宽）继承 Shape 并实现所有抽象方法。
+
+  ---
+  题4： 定义接口 Flyable（有 fly() 方法）和接口 Swimmable（有 swim() 方法），然后：
+  - Duck 类同时实现两个接口
+  - Eagle 类只实现 Flyable
+  - 写一个 main 方法，分别创建对象并调用对应方法
+
+  ---

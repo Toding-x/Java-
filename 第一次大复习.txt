@@ -1,0 +1,304 @@
+================================================================
+                    第一次大复习 - 代码检查 & 知识点总结
+================================================================
+
+
+========== 一、代码检查结果 ==========
+
+【practise03 - 集合】
+- ArrayListA.java     ✅ 正确  Iterator 删偶数写法完全正确
+- ArrayListB.java     ✅ 正确  Iterator 遍历 + entrySet 打印，逻辑清晰
+- HashMapC.java       ✅ 正确  split(" ") + getOrDefault 统计词频，完全正确
+- HashMapD.java       ✅ 正确  substring(0,1) 取首字母分组，逻辑正确
+- ListDemo.java       ✅ 正确  select / remove 都正确
+- countChars.java     ✅ 正确  charAt + String.valueOf 统计字符，正确
+- HashMapE.java       ⚠️ 小问题：int MaxScore = 0 初始化为0
+                       如果分数全是负数就会出错
+                       更健壮写法：初始化为 Integer.MIN_VALUE
+                       或用 Collections.max(map.values())
+                       此处题目分数为正数所以结果正确，但注意这个习惯
+
+【practise04 - JDBC】
+- User.java           ⚠️ 拼写错误：passsword（3个s），不影响运行但要注意
+- UserDao.java        ⚠️ 两个可优化点：
+                       1. findAll() 用了 Statement，建议统一用 PreparedStatement
+                       2. 没有用 try-with-resources，若 close 时抛异常会资源泄漏
+                          正确写法：
+                          try (Connection conn = ...; PreparedStatement stmt = ...) {
+                              // 自动关闭，不需要手动 close
+                          }
+
+【practise05 - Spring Boot】
+- ProductController.java  ✅ 完全正确
+                           @RestController、@RequestParam、@PathVariable 三种用法都对
+
+【practise06 - MyBatis】
+- BookMapper.java     ✅ 正确  @Mapper、@Select、@Insert、@Delete 注解全对
+                               #{id}、#{title} 占位符正确
+- BookController.java ⚠️ 三个问题：
+                       1. 多余 import：import org.apache.ibatis.annotations.Delete;
+                          应删除（@Delete 用在 Mapper 里，不在 Controller 里）
+                       2. @PostMapping("/add") 的 add(Book book) 缺少 @RequestBody
+                          REST 接口接收 JSON 时应写：
+                          public String add(@RequestBody Book book)
+                       3. 拼写错误：categroy 应为 category（字母顺序写反了）
+
+
+========== 二、你注释的薄弱点汇总 ==========
+
+知识点            掌握程度   建议
+------------------------------------------------------------------
+Iterator 用法      不熟      记住三步：hasNext()判断 → next()取值 → remove()删除
+entrySet() 遍历    不熟      背模板：for (Map.Entry<K,V> entry : map.entrySet())
+split() 用法       不熟      str.split(" ") 按空格切，返回 String[]
+substring() 用法   不熟      str.substring(起, 止) 左闭右开；取首字母用 substring(0,1)
+增强 for 循环      不熟      for (类型 变量 : 集合/数组)，不需要下标时用这个
+
+
+========== 三、全程知识点复习 ==========
+
+----------------------------------------------------------------
+【第一阶段：Java 基础与 OOP】
+----------------------------------------------------------------
+
+▶ 基本类型（8种）
+  byte  short  int  long  float  double  char  boolean
+  引用类型：String、数组、对象
+  自动装箱/拆箱：int <-> Integer（自动转换）
+
+▶ 流程控制
+  if/else、switch、for、while、do-while
+  break（跳出循环）、continue（跳过本次循环）
+
+▶ 数组
+  int[] arr = new int[5];
+  arr.length          // 长度（属性，不是方法）
+  普通for 或 增强for（for(int x : arr)）遍历
+
+▶ 方法
+  - 返回值类型、参数列表
+  - 方法重载（Overload）：同名不同参数
+  - void 方法不能 return 值，要返回结果就改返回类型
+
+▶ OOP 三大特性
+
+  封装：
+    private 字段 + getter/setter
+    外部不能直接访问私有字段，通过方法访问
+
+  继承：
+    extends，子类拥有父类非private成员
+    super：调用父类构造或方法
+    @Override：重写父类方法，编译器帮你检查拼写
+
+  多态：
+    父类引用指向子类对象
+    Animal a = new Dog();
+    调用的是子类重写的方法
+
+  abstract（抽象）：
+    abstract class 不能实例化
+    abstract 方法子类必须实现
+
+  interface（接口）：
+    用 implements，可多实现（Java不支持多继承但支持多接口）
+    接口里的方法默认是 public abstract
+
+  构造方法：
+    无返回值，名字和类名相同
+    创建对象时调用（new 的时候）
+    不写就有默认无参构造，写了有参构造后默认的就没了
+
+
+----------------------------------------------------------------
+【第二阶段：集合框架】
+----------------------------------------------------------------
+
+▶ 为什么用集合？
+  数组长度固定，集合长度可变，功能更丰富
+
+▶ ArrayList 常用方法
+  ArrayList<String> list = new ArrayList<>();
+  list.add("a");          // 添加
+  list.remove("a");       // 删除（不能在普通for里这样删！）
+  list.size();            // 长度
+  list.get(0);            // 取元素（下标从0开始）
+
+▶ 为什么不能在普通for循环里直接 remove？
+  会抛 ConcurrentModificationException
+  迭代器内部有 modCount 检查，直接 remove 破坏了迭代器状态
+
+▶ 正确删除方式：Iterator
+  Iterator<String> it = list.iterator();
+  while (it.hasNext()) {
+      String s = it.next();    // 先 next 拿元素
+      if (条件) it.remove();   // 再调用迭代器的 remove，安全
+  }
+  注意：不能先 remove 再 next，顺序不能反
+
+▶ HashMap 常用方法
+  HashMap<String, Integer> map = new HashMap<>();
+  map.put("key", 1);                      // 存（key重复则覆盖）
+  map.get("key");                         // 取（key不存在返回null）
+  map.containsKey("key");                 // 判断key是否存在
+  map.getOrDefault("key", 0);             // 取不到就返回默认值0
+
+▶ 遍历 HashMap 的两种方式
+  // 只遍历 key
+  for (String key : map.keySet()) { }
+
+  // 遍历 key+value（最常用）
+  for (Map.Entry<String, Integer> entry : map.entrySet()) {
+      String key = entry.getKey();
+      Integer value = entry.getValue();
+  }
+
+▶ 常用 String 方法（薄弱点重点）
+  str.split(" ")          // 按空格切分，返回 String[]
+                          // str.split(",") 按逗号切
+  str.charAt(i)           // 取第i个字符，返回 char 类型
+  str.substring(0, 1)     // 取子串，左闭右开，只取第0位
+  str.substring(2)        // 从第2位取到末尾
+  String.valueOf(c)       // char 转 String
+  str.length()            // 长度（String用的是方法，不是属性）
+  str.equals("abc")       // 比较内容（绝对不用 ==）
+  str.contains("java")    // 是否包含子串
+
+
+----------------------------------------------------------------
+【第三阶段：JDBC】
+----------------------------------------------------------------
+
+▶ 核心流程（5步）
+  1. 加载驱动（新版JDBC通过SPI自动加载，可省略）
+  2. 获取连接  Connection conn = DriverManager.getConnection(url, user, pwd)
+  3. 创建语句  PreparedStatement stmt = conn.prepareStatement(sql)
+  4. 执行语句  stmt.executeQuery()    // 查，返回 ResultSet
+               stmt.executeUpdate()   // 增删改，返回影响行数
+  5. 关闭资源  rs → stmt → conn（倒序关闭）
+
+▶ Statement vs PreparedStatement
+  Statement         有SQL注入风险，适合无参数静态SQL
+  PreparedStatement 安全（? 占位符），适合有参数的SQL
+  → 统一用 PreparedStatement 是好习惯
+
+▶ PreparedStatement 设置参数（下标从1开始！）
+  stmt.setInt(1, id);
+  stmt.setString(2, name);
+  stmt.setDouble(3, price);
+
+▶ ResultSet 读取
+  while (rs.next()) {       // 有下一行就移动过去
+      rs.getInt("id");
+      rs.getString("name");
+  }
+
+▶ try-with-resources（推荐写法，自动关闭）
+  try (Connection conn = DriverManager.getConnection(url, user, pwd);
+       PreparedStatement stmt = conn.prepareStatement(sql)) {
+      // 执行操作
+  } catch (SQLException e) {
+      e.printStackTrace();
+  }
+  // 不需要手动 close，自动关闭
+
+
+----------------------------------------------------------------
+【第四阶段：Maven】
+----------------------------------------------------------------
+
+▶ Maven 是什么？
+  项目管理工具，自动下载依赖（jar包），不需要手动管理
+
+▶ pom.xml 核心内容
+  <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.33</version>
+  </dependency>
+
+▶ 生命周期
+  compile → test → package → install
+  常用命令：mvn clean package（清理后打包）
+
+
+----------------------------------------------------------------
+【第五阶段：Spring Boot】
+----------------------------------------------------------------
+
+▶ 核心思想：约定大于配置
+  不需要写 XML，注解驱动，自动配置
+
+▶ 常用注解总结
+  @SpringBootApplication    启动类，程序入口
+  @RestController           Controller类，返回JSON
+                            (= @Controller + @ResponseBody)
+  @RequestMapping("/path")  设置根路径
+  @GetMapping               处理 GET 请求
+  @PostMapping              处理 POST 请求
+  @PutMapping               处理 PUT 请求
+  @DeleteMapping            处理 DELETE 请求
+  @RequestParam             从URL参数获取值（?id=1）
+  @PathVariable             从路径获取值（/detail/1）
+  @RequestBody              从请求体获取JSON对象
+  @Autowired                自动注入 Spring Bean
+
+▶ 三种参数获取方式对比
+  // URL参数：?id=1
+  public String find(@RequestParam int id)
+
+  // 路径参数：/detail/1
+  @GetMapping("/{id}/detail")
+  public String detail(@PathVariable int id)
+
+  // 请求体JSON：POST { "id":1, "name":"book" }
+  public String add(@RequestBody Book book)
+
+▶ 项目结构
+  controller  → 接收HTTP请求，调用服务/Mapper
+  entity      → 实体类，对应数据库表
+  mapper      → MyBatis接口，执行SQL
+  resources/application.yml → 配置文件（数据库连接等）
+
+
+----------------------------------------------------------------
+【第六阶段：MyBatis】
+----------------------------------------------------------------
+
+▶ MyBatis 是什么？
+  简化JDBC，把SQL写在注解或XML里，自动完成结果映射
+  不需要手动 rs.getInt("id") 这样一个个取，自动封装
+
+▶ 关键注解
+  @Mapper                          告诉Spring这是MyBatis接口
+  @Select("select * from book")    查
+  @Insert("insert into book ...")  增
+  @Delete("delete from book ...")  删
+  @Update("update book set ...")   改
+
+▶ #{} vs ${}
+  #{}  预编译，安全，防SQL注入  → 始终用这个
+  ${}  直接拼接字符串，有注入风险 → 不用
+
+▶ 参数占位符写法
+  @Select("select * from book where id=#{id}")
+  Book findById(int id);
+
+  @Insert("insert into book values(#{id},#{title},#{author},#{price},#{category})")
+  int insert(Book book);   // #{} 里的名字要和 Book 字段名一致
+
+▶ 自动映射规则
+  数据库列名和实体类字段名一致时自动映射（id→id，title→title）
+  不一致时用 @Results + @Result 手动配置
+
+▶ Spring Boot + MyBatis 整合套路
+  Controller（接收请求）
+    → 调用 Mapper 接口（@Autowired 注入）
+    → MyBatis 执行 SQL
+    → 返回结果给 Controller
+    → Controller 返回给客户端
+
+
+================================================================
+                           END
+================================================================

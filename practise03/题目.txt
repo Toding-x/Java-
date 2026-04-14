@@ -1,0 +1,36 @@
+集合篇（Day06-07）
+
+  题5： 用 ArrayList<String> 存储 5 个城市名，然后：
+  - 用 Iterator 遍历打印所有城市
+  - 删除其中长度大于 3 的城市（注意遍历时删除的写法）
+  - 打印删除后的结果
+
+  ---
+  题6： 用 HashMap<String, Integer> 统计以下字符串中每个字符出现的次数：
+  "hello world"
+  用 entrySet() 遍历打印结果，格式：h=1, e=1, l=3 ...
+
+  ---
+  JDBC 篇（Day10）
+
+  题7： 写一个 UserDao 类，连接你本地的 MySQL，实现：
+  - findAll() 查询 user 表所有数据并打印
+  - insert(String name, int age) 插入一条记录并返回影响行数
+  - 使用 try-with-resources 或在 finally 块中关闭连接
+
+  ---
+  Spring Boot 篇（Day12-14）
+
+  题8： 创建一个 Spring Boot Controller：ProductController
+  - 路由前缀：/product
+  - GET /product/list 返回字符串 "商品列表"
+  - GET /product/find?id=1 接收查询参数 id，返回 "查询商品，id=1"
+  - GET /product/{id}/detail 接收路径参数 id，返回 "商品详情，id=1"
+
+  ---
+  题9（综合题）： 在 day14 的基础上，给 UserMapper 新增两个方法并在 UserController 中暴露接口：
+  - insertUser(User user) 插入用户（用 @Insert 注解）
+  - deleteById(int id) 根据 id 删除用户（用 @Delete 注解）
+  - Controller 中用 POST /user/add 和 DELETE /user/{id} 对应
+
+  ---
