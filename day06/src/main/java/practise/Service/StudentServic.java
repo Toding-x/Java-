@@ -2,11 +2,15 @@ package practise.Service;
 
 import practise.entity.Student;
 
+import java.util.List;
+
 public interface StudentServic {
+
     void StudentAdd(Student student);
 
-    void StudentRemove(int id);
+    boolean StudentRemove(int id);
 
     void Studentsort();
-    void StudentGet();
+
+    List<Student> StudentGet();
 }

@@ -9,10 +9,24 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
+        <module>day01</module>
+        <module>day02</module>
+        <module>day03</module>
+        <module>day04</module>
+        <module>day06</module>
+        <module>day07</module>
+        <module>day10</module>
+        <module>day11</module>
+        <module>day12</module>
+        <module>day13</module>
+        <module>day14</module>
+        <module>day16</module>
+        <module>practise1</module>
         <module>practise1</module>
         <module>practise02</module>
         <module>practise03</module>
         <module>practise04</module>
+
     </modules>
 
     <properties>
