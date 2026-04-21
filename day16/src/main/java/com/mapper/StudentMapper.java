@@ -12,7 +12,7 @@ public interface StudentMapper {
     List<Student> getAll();
     @Select("select * from student where id=#{id}")
     Student getById(int id);
-    @Insert("insert into student(id,name,age,gender,classroom,address) values (#{id},#{name},#{age},#{gender},#{classroom},#{address})")
+    @Insert("insert into student(name,gender) values (#{name},#{gender})")
     int insert(Student student);
     @Delete("delete from student where id=#{id}")
     int delete(int id);

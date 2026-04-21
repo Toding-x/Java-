@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.EmpMapper">
+    <update id="updateByDeptId">
+        update emp set dept_id = null where dept_id = #{deptId}
+    </update>
+    <select id="findEmp" resultType="com.entity.Emp">
+        select * from emp
+        <where>
+            <if test="name != null and name !=''">
+                and name like concat( '%', #{name}, '%')
+            </if>
+        <if test="deptId !=null">
+            and dept_id = #{deptId}
+        </if>
+        <if test="id != null ">
+            and id = #{id}
+        </if>
+        <if test="gender !=null">
+            and gender = #{gender}
+        </if>
+        <if test="begin != null ">
+            and entry_date &gt;= #{begin}
+        </if>
+            <if test="end != null ">
+            and entry_date &lt;= #{end}
+        </if>
+        </where>
+    </select>
+<!--    insert使用trim来去除空白符和多余符号-->
+    <insert id="addEmp">
+        insert into emp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+                <if test="username != null">
+                    username,
+                </if>
+                <if test="name != null">
+                    name,
+                </if>
+                <if test="gender !=null ">
+                    gender,
+                </if>
+                <if test="phone !=null">
+                    phone,
+                </if>
+                <if test="deptId !=null">
+                    dept_id,
+                </if>
+                <if test="salary !=null">
+                    salary,
+                </if>
+                <if test="entryDate !=null">
+                    entry_date,
+                </if>
+                <if test="createTime != null ">
+                    create_time,
+                </if>
+            <if test="password != null ">
+                password,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="gender !=null ">
+                #{gender},
+            </if>
+            <if test="phone !=null">
+                #{phone},
+            </if>
+            <if test="deptId !=null">
+                #{deptId},
+            </if>
+            <if test="salary !=null">
+                #{salary},
+            </if>
+            <if test="entryDate !=null">
+                #{entryDate},
+            </if>
+            <if test="createTime != null ">
+                #{createTime},
+            </if>
+            <if test="password != null ">
+                #{password},
+            </if>
+        </trim>
+    </insert>
+<!--    update 使用set来去除多余空白符-->
+    <update id="updateEmp">
+    update emp
+<set>
+    <if test="username != null">
+        username =#{username},
+    </if>
+    <if test="name != null">
+        name =#{name},
+    </if>
+    <if test="gender !=null ">
+        gender =#{gender} ,
+    </if>
+    <if test="phone !=null">
+        phone =#{phone},
+    </if>
+    <if test="deptId !=null">
+        dept_id = #{deptId},
+    </if>
+    <if test="salary !=null">
+        salary = #{salary},
+    </if>
+    <if test="entryDate !=null">
+        entry_date =#{entryDate},
+    </if>
+    <if test="createTime != null ">
+        create_time =#{createTime},
+    </if>
+    <if test="password != null ">
+        password =#{password},
+    </if>
+</set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEmp" >
+        delete from emp where id in
+               <foreach collection="ids" item="id" open="(" separator="," close=")">
+                   #{id}
+               </foreach>
+    </delete>
+
+    <select id="findEmpById" resultType="com.entity.Emp">
+        select * from emp
+        <where>
+            <if test="id !=null">
+               and id=#{id}
+            </if>
+        </where>
+    </select>
+</mapper>

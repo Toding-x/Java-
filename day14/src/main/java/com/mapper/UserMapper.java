@@ -2,6 +2,7 @@ package com.mapper;
 
 import com.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
@@ -15,4 +16,8 @@ public interface UserMapper {
     @Select("select * from user where id = #{id}")
     User findById(int id);
 
+    List<User> findByCondition(@Param("name")String name,@Param("age") Integer age);
+    int deleteByIds(List<Integer> ids);
+    int updateSelective(User user);
+    int addUser(User user);
 }

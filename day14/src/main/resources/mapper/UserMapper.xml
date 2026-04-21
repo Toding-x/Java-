@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 命名空间必须对应你的 Mapper 接口 -->
+<mapper namespace="com.mapper.UserMapper">
+
+    <!-- ===================== 练习1：动态条件查询 ===================== -->
+    <select id="findByCondition" resultType="com.entity.User">
+        SELECT * FROM user
+        <where>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="age != null">
+                AND age = #{age}
+            </if>
+        </where>
+    </select>
+
+    <!-- ===================== 练习2：批量删除 ===================== -->
+    <delete id="deleteByIds">
+        DELETE FROM user
+        WHERE id IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- ===================== 练习3：动态更新 ===================== -->
+    <update id="updateSelective">
+        UPDATE user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+
+        <if test="address != null and address !=''">
+            address =#{address},        </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <!-- 动态新增用户：有什么字段就插入什么 -->
+    <insert id="addUser">
+        INSERT INTO user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+
+            <if test="address != null">
+                address,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+            password,
+        </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                #{name},
+            </if>
+            <if test="age != null">
+                #{age},
+            </if>
+
+            <if test="address != null">
+                #{address},
+            </if>
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

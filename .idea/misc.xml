@@ -19,11 +19,15 @@
         <option value="$PROJECT_DIR$/day06/pom.xml" />
         <option value="$PROJECT_DIR$/day07/pom.xml" />
         <option value="$PROJECT_DIR$/day10/pom.xml" />
+        <option value="$PROJECT_DIR$/firstUse/pom.xml" />
+        <option value="$PROJECT_DIR$/company/pom.xml" />
+        <option value="$PROJECT_DIR$/study/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/day05/pom.xml" />
+        <option value="$PROJECT_DIR$/firstUse/pom.xml" />
       </set>
     </option>
   </component>

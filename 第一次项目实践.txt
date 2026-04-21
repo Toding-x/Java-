@@ -1,0 +1,227 @@
+========================================
+        员工管理系统 — 第一次项目实践
+========================================
+技术栈：Spring Boot 3 + MyBatis + MySQL + JWT
+目标：完成一个可以写进简历的企业级后端项目
+
+========================================
+  数据库设计
+========================================
+
+CREATE TABLE dept (
+    id          INT PRIMARY KEY AUTO_INCREMENT,
+    name        VARCHAR(50)  NOT NULL COMMENT '部门名称',
+    create_time DATETIME     DEFAULT NOW()
+);
+
+CREATE TABLE emp (
+    id          INT PRIMARY KEY AUTO_INCREMENT,
+    username    VARCHAR(20)  NOT NULL UNIQUE COMMENT '登录账号',
+    password    VARCHAR(100) NOT NULL COMMENT 'MD5加密密码',
+    name        VARCHAR(20)  NOT NULL COMMENT '姓名',
+    gender      TINYINT      COMMENT '性别 1男 2女',
+    phone       VARCHAR(11)  COMMENT '手机号',
+    dept_id     INT          COMMENT '所属部门id',
+    salary      DECIMAL(8,2) COMMENT '薪资',
+    entry_date  DATE         COMMENT '入职日期',
+    create_time DATETIME     DEFAULT NOW()
+);
+
+========================================
+  项目结构
+========================================
+
+com/
+├── controller/
+│   ├── LoginController.java
+│   ├── DeptController.java
+│   └── EmpController.java
+├── service/
+│   ├── LoginService.java
+│   ├── LoginServiceImpl.java
+│   ├── DeptService.java
+│   ├── DeptServiceImpl.java
+│   ├── EmpService.java
+│   └── EmpServiceImpl.java
+├── mapper/
+│   ├── DeptMapper.java
+│   └── EmpMapper.java
+├── entity/
+│   ├── Dept.java
+│   └── Emp.java
+├── dto/
+│   ├── LoginDTO.java      ← 接收登录请求参数
+│   └── EmpQueryDTO.java   ← 接收分页查询参数
+├── vo/
+│   └── LoginVO.java       ← 返回token给前端
+├── result/
+│   ├── Result.java        ← 统一返回结果（已完成）
+│   └── PageResult.java    ← 分页结果封装
+├── exception/
+│   └── GlobalExceptionHandler.java
+├── interceptor/
+│   └── LoginInterceptor.java
+├── config/
+│   └── WebConfig.java     ← 注册拦截器
+└── utils/
+    ├── JwtUtils.java      ← JWT工具类（我来提供）
+    └── MD5Utils.java      ← MD5工具类（我来提供）
+
+========================================
+  任务清单（按顺序完成）
+========================================
+
+【第一阶段：基础搭建】
+
+  任务1 — 创建 SpringBoot 项目模块
+  - 新建 Maven 模块 emp-system
+  - pom.xml 引入依赖：
+    spring-boot-starter-web
+    mybatis-spring-boot-starter
+    mysql-connector-j
+    lombok
+    jjwt（JWT库）
+    spring-boot-starter-validation（参数校验）
+    pagehelper-spring-boot-starter（分页插件）
+  - 配置 application.yml：数据库连接、MyBatis、PageHelper
+  [ ] 完成
+
+  任务2 — 创建数据库和表
+  - 执行上方 SQL 建表
+  - 插入测试数据：3个部门、5个员工
+  [ ] 完成
+
+  任务3 — 创建实体类
+  - Dept.java：id、name、createTime
+  - Emp.java：id、username、password、name、gender、phone、deptId、salary、entryDate、createTime
+  - 所有字段加 @Data（Lombok）
+  [ √] 完成
+
+  任务4 — 创建 Result<T> 和 PageResult
+  - Result<T>（已完成，复制过来）
+  - PageResult：封装分页数据，字段：total（总记录数）、rows（当前页数据）
+  [ ] 完成
+
+========================================
+
+【第二阶段：部门管理】
+
+  任务5 — 部门查询
+  - DeptMapper：查询所有部门
+  - DeptService / DeptServiceImpl：调用 Mapper
+  - DeptController：GET /dept/list，返回 Result<List<Dept>>
+  [ ] 完成
+
+  任务6 — 新增部门
+  - DeptMapper：insert
+  - Controller：POST /dept/add，参数用 @RequestBody 接收，加 @Valid 校验（name不能为空）
+  [ ] 完成
+
+  任务7 — 修改部门
+  - DeptMapper：update by id
+  - Controller：PUT /dept/update
+  [ ] 完成
+
+  任务8 — 删除部门
+  - DeptMapper：delete by id
+  - Controller：DELETE /dept/{id}，用 @PathVariable 接收id
+  - 注意：删除部门时，同步把该部门下所有员工的 dept_id 置为 null
+  [ ] 完成
+
+========================================
+
+【第三阶段：登录 + JWT】
+
+  任务9 — MD5工具类和JWT工具类
+  - 直接用我提供的 MD5Utils.java 和 JwtUtils.java
+  [ ] 完成
+
+  任务10 — 登录接口
+  - 新建 LoginDTO：username、password 两个字段
+  - 新建 LoginVO：token 字段
+  - LoginMapper：根据 username 查询员工
+  - LoginService：查到员工后验证密码（MD5加密后比对），通过则用 JwtUtils 生成 token
+  - LoginController：POST /login，返回 Result<LoginVO>
+  [ ] 完成
+
+  任务11 — 登录拦截器
+  - LoginInterceptor：拦截所有请求（除了 /login），从请求头取 token，用 JwtUtils 验证
+  - 验证失败返回 401
+  - WebConfig：注册拦截器，排除 /login 路径
+  [ ] 完成
+
+========================================
+
+【第四阶段：员工管理】
+
+  任务12 — 分页查询员工
+  - 新建 EmpQueryDTO：page（页码）、pageSize（每页条数）、name（姓名，可选）、gender（性别，可选）、begin（入职开始日期，可选）、end（入职结束日期，可选）
+  - EmpMapper：动态SQL查询（用 XML 或 @SelectProvider，条件都是可选的）
+  - EmpService：使用 PageHelper 做分页，返回 PageResult
+  - Controller：GET /emp/list，返回 Result<PageResult>
+  [ ] 完成
+
+  任务13 — 新增员工
+  - Controller：POST /emp/add，@RequestBody 接收 Emp，@Valid 校验
+  - Service：密码默认设为 "123456" 的 MD5 值，再写入数据库
+  - 校验：用户名、姓名不能为空，手机号格式校验（@Pattern）
+  [ ] 完成
+
+  任务14 — 修改员工
+  - Controller：PUT /emp/update
+  - 注意：密码字段不允许在这里修改
+  [ ] 完成
+
+  任务15 — 删除员工（批量）
+  - Controller：DELETE /emp，参数接收 ids（List<Integer>）
+  - Mapper：DELETE FROM emp WHERE id IN (...)，用 foreach 动态拼接
+  [ ] 完成
+
+  任务16 — 根据ID查询员工
+  - Controller：GET /emp/{id}
+  - 用于修改前回显数据
+  [ ] 完成
+
+========================================
+
+【第五阶段：完善】
+
+  任务17 — 全局异常处理
+  - GlobalExceptionHandler 加 @ControllerAdvice
+  - 捕获 MethodArgumentNotValidException（参数校验失败），返回 Result.error(提示信息)
+  - 捕获 RuntimeException，返回 Result.error(e.getMessage())
+  [ ] 完成
+
+  任务18 — 参数校验完善
+  - Emp 实体或 DTO 上加注解：
+    @NotBlank(message = "用户名不能为空")
+    @NotBlank(message = "姓名不能为空")
+    @Pattern(regexp = "^1[3-9]\\d{9}$", message = "手机号格式不正确")
+    @DecimalMin(value = "0", message = "薪资不能为负数")
+  [ ] 完成
+
+  任务19 — 接口测试（Postman）
+  - 测试登录：正确账号、错误密码、不传token直接访问
+  - 测试部门：增删改查全部跑一遍
+  - 测试员工：分页查询带筛选条件、新增、批量删除
+  [ ] 完成
+
+========================================
+
+【我来完成的部分】
+
+  - JwtUtils.java（JWT生成和解析工具类）
+  - MD5Utils.java（MD5加密工具类）
+  - 前端页面（所有后端接口完成后提供）
+
+========================================
+  完成标准
+========================================
+
+全部任务完成后，你应该能做到：
+1. 用 Postman 测试所有接口正常返回
+2. 能解释每一层（Controller/Service/Mapper）分别做了什么
+3. 能说清楚 JWT 是怎么做登录验证的
+4. 简历上能写并能在面试中讲清楚这个项目
+
+========================================
